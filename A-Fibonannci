@@ -1,0 +1,38 @@
+#include <bits/stdc++.h>
+using namespace std;
+ 
+const int mod = 1000000007;
+ 
+void multiplyMatrix(long long f[2][2], long long M[2][2]){
+    long long x = (f[0][0] * M[0][0] + f[0][1] * M[1][0])% mod;
+    long long y = (f[0][0] * M[0][1] + f[0][1] * M[1][1]) % mod;
+    long long z = (f[1][0] * M[0][0] + f[1][1] * M[1][0]) % mod;
+    long long w = (f[1][0] * M[0][1] + f[1][1] * M[1][1]) % mod;
+    f[0][0] = x;
+    f[0][1] = y;
+    f[1][0] = z;
+    f[1][1] = w;
+}
+ 
+void matrixPower(long long f[2][2], int n){
+    if (n<=1) return;
+    long long M[2][2] = {{1,1}, {1,0}};
+ 
+    matrixPower(f, n/2);
+    multiplyMatrix(f,f);
+    if (n%2 != 0) multiplyMatrix(f,M);
+}
+ 
+long long fibo(int n){
+    if (n<=0) return 0;
+    long long f[2][2] = {{1,1},{1,0}};
+    matrixPower(f,n-1);
+    return f[0][0];
+}
+ 
+int main(){
+    int n; cin >> n;
+    long long result = fibo(n);
+    cout << result;
+    return 0;
+}
